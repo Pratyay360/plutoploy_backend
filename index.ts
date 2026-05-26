@@ -1,14 +1,23 @@
-import { startServer } from "./backend/server";
-import './backend/src/db/database'; // Initialize database
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+const app = new Hono();
 
-console.log('Starting Plutoploy deployment platform...');
-process.stdout.write(''); // Flush stdout
+app.use("*", cors());
 
-try {
-  startServer();
-  console.log('Server started successfully!');
-  process.stdout.write(''); // Flush stdout
-} catch (error) {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-}
+app.get("/", (c) => {
+  return c.json({
+    message: "Deployment Platform API",
+    status: "running",
+    version: "1.0.0",
+  });
+});
+
+app.get("/health", (c) => {
+  return c.json({ status: "healthy" });
+});
+
+app.post("/deploy/:", async (c) => {
+  const route = c.req.param("route");
+  const body = await c.req.json();
+  return c.json({ received: body, route, success: true });
+});
