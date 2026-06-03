@@ -1,6 +1,6 @@
-+ implementing packing and e2e encryption with age :)
+- implementing packing and e2e encryption with age :)
 
-// install .service  to ~/.local/share/systemd/user/..
+// install .service to ~/.local/share/systemd/user/..
 // [docs](https://mintlify.wiki/Pratyay360/podman-ts)
 
 ```

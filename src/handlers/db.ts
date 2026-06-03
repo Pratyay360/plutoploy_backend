@@ -8,5 +8,4 @@ db.run(`
       port INTEGER,
     );
   `);
-
 export default db;
