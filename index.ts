@@ -1,8 +1,12 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { deployRoutes } from "./src/routes/deployRoutes";
 const app = new Hono();
 
 app.use("*", cors());
+
+app.route("/api", deployRoutes);
+
 
 app.get("/", (c) => {
   return c.json({
@@ -16,8 +20,7 @@ app.get("/health", (c) => {
   return c.json({ status: "healthy" });
 });
 
-app.post("/deploy/:", async (c) => {
-  const route = c.req.param("route");
-  const body = await c.req.json();
-  return c.json({ received: body, route, success: true });
-});
+export default {
+  port: 3000,
+  fetch: app.fetch,
+};

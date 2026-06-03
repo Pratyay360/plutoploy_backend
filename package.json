@@ -5,6 +5,7 @@
   "module": "index.ts",
   "scripts": {
     "build": "bun build ./index.ts --compile --target=bun-linux --outfile plutoploy",
+    "dev": "bun --hot index.ts",
     "start": "bun ./plutoploy",
     "lint": "oxlint .",
     "format": "oxfmt --write ."

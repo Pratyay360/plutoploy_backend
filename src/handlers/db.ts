@@ -5,7 +5,7 @@ db.run(`
     CREATE TABLE IF NOT EXISTS routes (
       route TEXT,
       container TEXT,
-      port INTEGER,
+      port INTEGER
     );
   `);
 export default db;
