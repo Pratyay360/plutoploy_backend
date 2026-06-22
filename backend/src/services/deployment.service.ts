@@ -25,6 +25,24 @@ export const deployApp = async (config: DeploymentConfig) => {
         
         console.log(`✅ Deployment ${deployId} successful!`);
         
+
+    try {
+        console.log(`Starting deployment ${deployId}...`);
+
+        // 1. Pull image from registry
+        console.log(`Pulling image: ${imageName}`);
+        await pullImage(imageName);
+
+        // 2. Create and start container
+        console.log(`Creating container on port ${port}`);
+        const containerId = await createAndStartContainer(port, imageName, deployId);
+
+        // 3. Add Caddy route via SQLite
+        console.log(`Adding Caddy route for ${subdomain}...`);
+        await addCaddyRoute(deployId, subdomain, port);
+
+        console.log(`✅ Deployment ${deployId} successful!`);
+
         return {
             success: true,
             deployId,
@@ -34,6 +52,7 @@ export const deployApp = async (config: DeploymentConfig) => {
             containerId
         };
         
+
     } catch (error: any) {
         console.error(`❌ Deployment ${deployId} failed:`, error.message);
         throw error;

@@ -27,6 +27,15 @@ app.post("/test", async (c) => {
   return c.json({ received: body, success: true });
 });
 
+// Mount auth routes (GitHub App OAuth)
+app.route('/api/auth', authRoutes);
+
+// Mount GitHub App routes (repos, etc.)
+app.route('/api', githubRoutes);
+
+// Mount GitHub Webhook routes
+app.route('/api/webhooks', webhookRoutes);
+
 // Mount deployment routes
 app.route('/api', deployRoutes);
 
@@ -35,7 +44,6 @@ const port = parseInt(process.env.PORT || '3000');
 export function startServer() {
   console.log('Initializing server...');
   process.stdout.write(''); // Flush stdout
-  
   const server = createServer(async (req, res) => {
     try {
       // Read body for POST/PUT/PATCH requests
@@ -48,7 +56,6 @@ export function startServer() {
           req.on('error', () => resolve(Buffer.from('')));
         });
       }
-      
       const response = await app.fetch(
         new Request(`http://localhost:${port}${req.url}`, {
           method: req.method,
@@ -56,14 +63,25 @@ export function startServer() {
           body: requestBody
         })
       );
-      
       res.statusCode = response.status;
       response.headers.forEach((value, key) => {
         res.setHeader(key, value);
       });
-      
-      const responseBody = await response.text();
-      res.end(responseBody);
+
+      if (response.body) {
+        const reader = response.body.getReader();
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            if (value) res.write(value);
+          }
+        } finally {
+          res.end();
+        }
+      } else {
+        res.end();
+      }
     } catch (error) {
       console.error('Request error:', error);
       res.statusCode = 500;
@@ -80,7 +98,6 @@ export function startServer() {
     console.log(`   DELETE /api/deployments/:id`);
     process.stdout.write(''); // Flush stdout
   });
-  
   // Graceful shutdown
   process.on('SIGINT', () => {
     console.log('\n👋 Shutting down gracefully...');
@@ -88,14 +105,12 @@ export function startServer() {
       process.exit(0);
     });
   });
-  
   process.on('SIGTERM', () => {
     console.log('\n👋 Shutting down gracefully...');
     server.close(() => {
       process.exit(0);
     });
   });
-  
   return server;
 }
 
