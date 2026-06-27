@@ -6,7 +6,7 @@
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": false,
 		"allowArbitraryExtensions": true,
-		"noEmit": true,
+		"noEmit": false,
 		"moduleDetection": "force",
 		"allowJs": false,
 		"outDir": "dist",
