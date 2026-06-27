@@ -1,12 +1,12 @@
 import { getDb } from "@/lib/db";
-import { getEnv } from "@/utils/env";
+// import { getEnv } from "@/utils/env";
 import { repos, deployments } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import type { Context } from "hono";
 
 function getDbFromContext(c: Context) {
-	const env = getEnv(c);
-	return getDb(env.DATABASE_URL);
+	// const env = getEnv(c);
+	return getDb(process.env.DATABASE_URL!);
 }
 
 export async function getReposList(c: Context) {

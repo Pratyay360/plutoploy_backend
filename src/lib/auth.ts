@@ -1,20 +1,35 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
-import * as schema from "./auth-schema";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "@/db/schema";
+// import type { Env } from "@/types/config";
 
-const db = drizzle(new Pool({ connectionString: process.env.DATABASE_URL }), {
-  schema,
-});
+const dbInstances = new Map<
+	string,
+	ReturnType<typeof drizzle<typeof schema>>
+>();
 
-export const auth = betterAuth({
-  database: drizzleAdapter(db, { provider: "pg", schema }),
-  baseURL: "http://localhost:3000/",
-  socialProviders: {
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    },
-  },
-});
+function getDb(databaseUrl: string) {
+	let db = dbInstances.get(databaseUrl);
+	if (!db) {
+		const sql = neon(databaseUrl);
+		db = drizzle(sql, { schema });
+		dbInstances.set(databaseUrl, db);
+	}
+	return db;
+}
+
+export function createAuth() {
+	const db = getDb(process.env.DATABASE_URL!);
+	return betterAuth({
+		database: drizzleAdapter(db, { provider: "pg", schema }),
+		baseURL: process.env.BETTER_AUTH_URL!,
+		socialProviders: {
+			github: {
+				clientId: process.env.GITHUB_CLIENT_ID!,
+				clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+			},
+		},
+	});
+}

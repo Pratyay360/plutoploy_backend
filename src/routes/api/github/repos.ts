@@ -1,15 +1,15 @@
 import { Hono } from "hono";
 import { requireSession } from "@/middleware/auth.middleware";
-import { getEnv } from "@/utils/env";
+// import { getEnv } from "@/utils/env";
 import { fetchUserRepos, getGitHubToken } from "@/utils/github";
 
 const githubRepos = new Hono();
 
 githubRepos.get("/", requireSession, async (c) => {
-	const env = getEnv(c);
+	// const env = getEnv(c);
 	const session = c.get("session");
 
-	const token = await getGitHubToken(session.user.id, env);
+	const token = await getGitHubToken(session.user.id);
 
 	if (!token) {
 		return c.json({ error: "No GitHub account linked" }, 401);
