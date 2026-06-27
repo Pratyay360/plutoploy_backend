@@ -1,11 +1,10 @@
 import { Hono } from "hono";
 import { createAuth } from "../../../lib/auth";
-// import { getEnv } from "@/utils/env";
 
 const auth = new Hono();
 
-auth.on(["GET", "POST"], "/*", async (c) => {
-	// const env = getEnv(c);
+auth.all("*", async (c) => {
+	console.log("Auth route hit:", c.req.method, c.req.url);
 	const authInstance = createAuth();
 	return authInstance.handler(c.req.raw);
 });

@@ -1,6 +1,0 @@
-{
-  "buildCommand": null,
-  "outputDirectory": null,
-  "framework": "hono",
-  "installCommand": "bun install"
-}

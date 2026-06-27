@@ -1,7 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import auth from "./routes/api/auth/[...all]";
+import { swaggerUI } from "@hono/swagger-ui";
+import { auth } from "./lib/auth";
+import { openApiSpec } from "./lib/openapi";
 import deploy from "./routes/api/deploy";
 import deployments from "./routes/api/deployments";
 import repos from "./routes/api/repos";
@@ -13,7 +15,15 @@ const app = new Hono();
 app.use("*", logger());
 app.use("*", cors());
 
-app.route("/api/auth", auth);
+// Swagger UI
+app.get("/docs", swaggerUI({ spec: { url: "/openapi.json" } }));
+app.get("/openapi.json", (c) => c.json(openApiSpec));
+
+// Better Auth handler — must use app.on with wildcard, NOT app.route
+app.on(["POST", "GET"], "/api/auth/*", (c) => {
+	return auth.handler(c.req.raw);
+});
+
 app.route("/api/deploy", deploy);
 app.route("/api/deployments", deployments);
 app.route("/api/repos", repos);

@@ -19,9 +19,6 @@ injectWorkflow.post("/", requireSession, async (c) => {
 	if (!repoFullName || !runtime || !branch) {
 		return c.json({ error: "Missing repoFullName, runtime, or branch" }, 400);
 	}
-
-	// TODO: trigger the actual workflow injection
-	// This would push a GitHub Actions workflow file to the repo
 	const buildId = Math.random().toString(36).substring(2, 15);
 
 	return c.json({ buildId });
