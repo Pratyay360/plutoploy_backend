@@ -1,6 +1,6 @@
-import { getDb } from "../lib/db";
-// import { getEnv } from "../utils/env";
-import { repos, deployments } from "./schema";
+import { getDb } from "../lib/db.js";
+// import { getEnv } from "../utils/env.js";
+import { repos, deployments } from "./schema.js";
 import { eq, desc } from "drizzle-orm";
 import type { Context } from "hono";
 

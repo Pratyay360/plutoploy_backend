@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { requireSession } from "../../middleware/auth.middleware";
-import { getGitHubToken, upsertWorkflowFile } from "../../utils/github";
+import { requireSession } from "../../middleware/auth.middleware.js";
+import { getGitHubToken, upsertWorkflowFile } from "../../utils/github.js";
 
 const injectWorkflow = new Hono();
 

@@ -1,10 +1,10 @@
 import { Hono } from "hono";
-import { requireSession } from "../../middleware/auth.middleware";
+import { requireSession } from "../../middleware/auth.middleware.js";
 import {
 	getDeploymentsList,
 	getDeploymentById,
 	deleteDeploymentById,
-} from "../../db/database";
+} from "../../db/database.js";
 
 const deployments = new Hono();
 

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { requireSession } from "../../../middleware/auth.middleware";
-// import { getEnv } from "../../../utils/env";
-import { fetchUserRepos, getGitHubToken } from "../../../utils/github";
+import { requireSession } from "../../../middleware/auth.middleware.js";
+// import { getEnv } from "../../../utils/env.js";
+import { fetchUserRepos, getGitHubToken } from "../../../utils/github.js";
 
 const githubRepos = new Hono();
 

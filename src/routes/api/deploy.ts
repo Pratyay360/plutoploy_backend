@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { requireSession } from "../../middleware/auth.middleware";
-import { addDeployment } from "../../db/database";
+import { requireSession } from "../../middleware/auth.middleware.js";
+import { addDeployment } from "../../db/database.js";
 
 const deploy = new Hono();
 
