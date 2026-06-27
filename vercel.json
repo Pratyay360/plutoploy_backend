@@ -3,10 +3,5 @@
   "outputDirectory": null,
   "framework": "hono",
   "installCommand": "bun install",
-  "functions": {
-    "index.ts": {
-      "runtime": "@vercel/node@3",
-      "includeFiles": ["src/**"]
-    }
-  }
+  "runCommand": "bun run start"
 }
