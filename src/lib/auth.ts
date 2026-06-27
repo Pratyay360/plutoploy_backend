@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
-import * as schema from "@/db/schema";
+import * as schema from "../db/schema";
 // import type { Env } from "@/types/config";
 
 const dbInstances = new Map<

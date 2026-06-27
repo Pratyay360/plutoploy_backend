@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import { createAuth } from "@/lib/auth";
+import { createAuth } from "../lib/auth";
 // import { getEnv } from "@/utils/env";
 
 export const requireSession = createMiddleware(async (c, next) => {

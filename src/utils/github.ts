@@ -1,6 +1,6 @@
-import { getDb } from "@/lib/db";
-// import { getEnv } from "@/utils/env";
-import { account } from "@/db/schema";
+import { getDb } from "../lib/db";
+// import { getEnv } from "../utils/env";
+import { account } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 
 export interface GitHubRepo {

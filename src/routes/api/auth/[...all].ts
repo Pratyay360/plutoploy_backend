@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { createAuth } from "@/lib/auth";
+import { createAuth } from "../../../lib/auth";
 // import { getEnv } from "@/utils/env";
 
 const auth = new Hono();

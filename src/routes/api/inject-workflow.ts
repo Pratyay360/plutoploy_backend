@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { requireSession } from "@/middleware/auth.middleware";
+import { requireSession } from "../../middleware/auth.middleware";
 
 const injectWorkflow = new Hono();
 

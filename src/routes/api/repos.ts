@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { requireSession } from "@/middleware/auth.middleware";
-import { getReposList, getRepoById } from "@/db/database";
+import { requireSession } from "../../middleware/auth.middleware";
+import { getReposList, getRepoById } from "../../db/database";
 
 const repos = new Hono();
 

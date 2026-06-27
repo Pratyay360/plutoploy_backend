@@ -1,6 +1,6 @@
-import { getDb } from "@/lib/db";
-// import { getEnv } from "@/utils/env";
-import { repos, deployments } from "@/db/schema";
+import { getDb } from "../lib/db";
+// import { getEnv } from "../utils/env";
+import { repos, deployments } from "./schema";
 import { eq, desc } from "drizzle-orm";
 import type { Context } from "hono";
 
