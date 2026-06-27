@@ -1,9 +1,7 @@
 import { app } from "./src";
 
-export default {
-	fetch: app.fetch,
-};
+import { HonoBase } from "hono/hono-base";
 
-if (typeof Bun !== "undefined") {
-	console.log("Server running on http://localhost:3000");
-}
+export default new HonoBase({
+	fetch: app.fetch,
+});
