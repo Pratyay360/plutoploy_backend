@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { Pool } from "pg";
+import { drizzle } from "drizzle-orm/postgres-js";
 import * as schema from "../db/schema";
 // import type { Env } from "@/types/config";
 
@@ -13,7 +13,7 @@ const dbInstances = new Map<
 function getDb(databaseUrl: string) {
   let db = dbInstances.get(databaseUrl);
   if (!db) {
-    const sql = neon(databaseUrl);
+    const sql = new Pool({ connectionString: databaseUrl });
     db = drizzle(sql, { schema });
     dbInstances.set(databaseUrl, db);
   }

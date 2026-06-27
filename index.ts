@@ -3,7 +3,6 @@ export default {
   fetch: app.fetch,
 };
 
-// Local dev with Bun
 if (typeof Bun !== "undefined") {
   Bun.serve({
     fetch: app.fetch,
