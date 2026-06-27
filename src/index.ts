@@ -16,7 +16,7 @@ app.use("*", logger());
 app.use("*", cors());
 
 // Swagger UI
-app.get("/docs", swaggerUI({ spec: { url: "/openapi.json" } }));
+app.get("/docs", swaggerUI({ url: "/openapi.json" }));
 app.get("/openapi.json", (c) => c.json(openApiSpec));
 
 // Better Auth handler — must use app.on with wildcard, NOT app.route
