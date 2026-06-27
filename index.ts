@@ -1,14 +1,8 @@
-import { startServer } from "./backend/server";
-import './backend/src/db/database'; // Initialize database
+import { app } from "./src";
 
-console.log('Starting Plutoploy deployment platform...');
-process.stdout.write(''); // Flush stdout
+Bun.serve({
+  fetch: app.fetch,
+  port: 3000,
+});
 
-try {
-  startServer();
-  console.log('Server started successfully!');
-  process.stdout.write(''); // Flush stdout
-} catch (error) {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-}
+console.log("Server running on http://localhost:3000");

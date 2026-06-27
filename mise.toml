@@ -2,6 +2,6 @@
 bun = "latest"
 node = "latest"
 pnpm = "latest"
-sops = "latest"
-age = "latest"
-betterleaks = "latest"
+
+[deps]
+bun = { auto = true }
