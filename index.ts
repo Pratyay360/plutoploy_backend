@@ -1,7 +1,3 @@
-import { app } from "./src";
+import { app } from "./src/index.js";
 
-import { HonoBase } from "hono/hono-base";
-
-export default new HonoBase({
-	fetch: app.fetch,
-});
+export default app;

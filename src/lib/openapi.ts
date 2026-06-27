@@ -8,10 +8,6 @@ export const openApiSpec = {
 	},
 	servers: [
 		{
-			url: "http://localhost:3000",
-			description: "Local development",
-		},
-		{
 			url: "https://plutoploy-backend.vercel.app",
 			description: "Production",
 		},
@@ -418,8 +414,11 @@ export const openApiSpec = {
 							"application/json": {
 								schema: {
 									type: "object",
-									properties: {
+								properties: {
 										buildId: { type: "string" },
+										workflowPath: { type: "string" },
+										workflowSha: { type: "string" },
+										workflowUrl: { type: ["string", "null"] },
 									},
 								},
 							},

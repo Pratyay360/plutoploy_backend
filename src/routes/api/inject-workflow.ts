@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { requireSession } from "../../middleware/auth.middleware";
+import { getGitHubToken, upsertWorkflowFile } from "../../utils/github";
 
 const injectWorkflow = new Hono();
 
@@ -19,9 +20,27 @@ injectWorkflow.post("/", requireSession, async (c) => {
 	if (!repoFullName || !runtime || !branch) {
 		return c.json({ error: "Missing repoFullName, runtime, or branch" }, 400);
 	}
-	const buildId = Math.random().toString(36).substring(2, 15);
 
-	return c.json({ buildId });
+	const session = c.get("session");
+	const token = await getGitHubToken(session.user.id);
+
+	if (!token) {
+		return c.json({ error: "No GitHub account linked" }, 401);
+	}
+
+	const result = await upsertWorkflowFile({
+		repoFullName,
+		runtime,
+		branch,
+		token,
+	});
+
+	return c.json({
+		buildId: result.commit.sha,
+		workflowPath: result.content.path,
+		workflowSha: result.content.sha,
+		workflowUrl: result.content.html_url ?? result.commit.html_url ?? null,
+	});
 });
 
 export default injectWorkflow;

@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import * as schema from "../db/schema";
+import * as schema from "../db/schema.js";
 
 const sql = new Pool({ connectionString: process.env.DATABASE_URL! });
 const db = drizzle(sql, { schema });
