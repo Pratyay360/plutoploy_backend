@@ -30,4 +30,4 @@ app.route("/api/repos", repos);
 app.route("/api/github/repos", githubRepos);
 app.route("/api/inject-workflow", injectWorkflow);
 
-export { app };
+export default app;
