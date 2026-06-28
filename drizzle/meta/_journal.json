@@ -8,6 +8,13 @@
 			"when": 1782559460990,
 			"tag": "0000_nostalgic_songbird",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1782628344334,
+			"tag": "0001_red_bushwacker",
+			"breakpoints": true
 		}
 	]
 }

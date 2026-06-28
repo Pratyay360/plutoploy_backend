@@ -1,7 +1,6 @@
-import { getDb } from "../lib/db.js";
-// import { getEnv } from "../utils/env.js";
+import { and, eq } from "drizzle-orm";
 import { account } from "../db/schema.js";
-import { eq, and } from "drizzle-orm";
+import { getDb } from "../lib/db.js";
 
 export interface GitHubRepo {
 	id: number;
@@ -16,7 +15,7 @@ export interface GitHubRepo {
 }
 
 export async function getGitHubToken(userId: string): Promise<string | null> {
-	const db = getDb(process.env.DATABASE_URL!);
+	const db = getDb();
 	const result = await db
 		.select({ accessToken: account.accessToken })
 		.from(account)
@@ -36,8 +35,9 @@ export async function fetchUserRepos(token: string): Promise<GitHubRepo[]> {
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
-					Accept: "application/vnd.github.v3+json",
-					"User-Agent": "Plutoploy",
+					Accept: "application/vnd.github+json",
+					"X-GitHub-Api-Version": "2022-11-28",
+					"User-Agent": "PlutoPloy",
 				},
 			},
 		);

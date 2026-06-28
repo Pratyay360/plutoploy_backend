@@ -1,31 +1,29 @@
-import { getDb } from "../lib/db.js";
-// import { getEnv } from "../utils/env.js";
-import { repos, deployments } from "./schema.js";
-import { eq, desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import type { Context } from "hono";
+import { getDb } from "../lib/db.js";
+import { deployments, repos } from "./schema.js";
 
-function getDbFromContext(c: Context) {
-	// const env = getEnv(c);
-	return getDb(process.env.DATABASE_URL!);
+function getDbFromContext(_c?: Context) {
+	return getDb();
 }
 
-export async function getReposList(c: Context) {
+export async function getReposList(c?: Context) {
 	const db = getDbFromContext(c);
 	return db.select().from(repos);
 }
 
-export async function getRepoById(id: string, c: Context) {
+export async function getRepoById(id: string, c?: Context) {
 	const db = getDbFromContext(c);
 	const result = await db.select().from(repos).where(eq(repos.id, id)).limit(1);
 	return result[0] ?? null;
 }
 
-export async function getDeploymentsList(c: Context) {
+export async function getDeploymentsList(c?: Context) {
 	const db = getDbFromContext(c);
 	return db.select().from(deployments).orderBy(desc(deployments.id));
 }
 
-export async function getDeploymentById(id: string, c: Context) {
+export async function getDeploymentById(id: string, c?: Context) {
 	const db = getDbFromContext(c);
 	const result = await db
 		.select()
@@ -47,7 +45,7 @@ export async function addDeployment(
 		image?: string;
 		subdomain?: string;
 	},
-	c: Context,
+	c?: Context,
 ) {
 	const db = getDbFromContext(c);
 	const id = Math.random().toString(36).substring(2, 9);
@@ -70,7 +68,7 @@ export async function addDeployment(
 	return { ...deployment, id, timestamp };
 }
 
-export async function deleteDeploymentById(id: string, c: Context) {
+export async function deleteDeploymentById(id: string, c?: Context) {
 	const db = getDbFromContext(c);
 	await db.delete(deployments).where(eq(deployments.id, id));
 }

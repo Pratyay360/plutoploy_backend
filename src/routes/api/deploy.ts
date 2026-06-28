@@ -1,18 +1,20 @@
 import { Hono } from "hono";
-import { requireSession } from "../../middleware/auth.middleware.js";
 import { addDeployment } from "../../db/database.js";
+import { requireSession } from "../../middleware/auth.middleware.js";
 
 const deploy = new Hono();
 
 deploy.post("/", requireSession, async (c) => {
-	const body = await c.req.json<{
-		image: string;
-		subdomain: string;
-		repo?: string;
-	}>();
+	const body = await c.req
+		.json<{
+			image: string;
+			subdomain: string;
+			repo?: string;
+		}>()
+		.catch(() => null);
 
 	if (!body) {
-		return c.json({ error: "Request body is required" }, 400);
+		return c.json({ error: "Invalid or missing request body" }, 400);
 	}
 
 	const { image, subdomain, repo } = body;

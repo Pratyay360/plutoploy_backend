@@ -1,14 +1,14 @@
+import { swaggerUI } from "@hono/swagger-ui";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { swaggerUI } from "@hono/swagger-ui";
 import { auth } from "./lib/auth.js";
 import { openApiSpec } from "./lib/openapi.js";
 import deploy from "./routes/api/deploy.js";
 import deployments from "./routes/api/deployments.js";
-import repos from "./routes/api/repos.js";
 import githubRepos from "./routes/api/github/repos.js";
 import injectWorkflow from "./routes/api/inject-workflow.js";
+import repos from "./routes/api/repos.js";
 
 const app = new Hono();
 
