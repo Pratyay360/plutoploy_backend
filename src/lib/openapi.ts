@@ -414,7 +414,7 @@ export const openApiSpec = {
 							"application/json": {
 								schema: {
 									type: "object",
-								properties: {
+									properties: {
 										buildId: { type: "string" },
 										workflowPath: { type: "string" },
 										workflowSha: { type: "string" },

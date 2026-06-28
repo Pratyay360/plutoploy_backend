@@ -98,21 +98,26 @@ export async function upsertWorkflowFile(input: InjectWorkflowInput) {
 	const encodedContent = Buffer.from(content).toString("base64");
 	const baseUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-	const existingRes = await fetch(`${baseUrl}?ref=${encodeURIComponent(input.branch)}`, {
-		headers: {
-			Authorization: `Bearer ${input.token}`,
-			Accept: "application/vnd.github+json",
-			"X-GitHub-Api-Version": "2022-11-28",
-			"User-Agent": "PlutoPloy",
+	const existingRes = await fetch(
+		`${baseUrl}?ref=${encodeURIComponent(input.branch)}`,
+		{
+			headers: {
+				Authorization: `Bearer ${input.token}`,
+				Accept: "application/vnd.github+json",
+				"X-GitHub-Api-Version": "2022-11-28",
+				"User-Agent": "PlutoPloy",
+			},
 		},
-	});
+	);
 
 	let sha: string | undefined;
 	if (existingRes.ok) {
 		const existing = (await existingRes.json()) as { sha?: string };
 		sha = existing.sha;
 	} else if (existingRes.status !== 404) {
-		throw new Error(`GitHub contents lookup failed: ${existingRes.status} ${existingRes.statusText}`);
+		throw new Error(
+			`GitHub contents lookup failed: ${existingRes.status} ${existingRes.statusText}`,
+		);
 	}
 
 	const writeRes = await fetch(baseUrl, {
@@ -134,7 +139,9 @@ export async function upsertWorkflowFile(input: InjectWorkflowInput) {
 
 	if (!writeRes.ok) {
 		const errorBody = await writeRes.text();
-		throw new Error(`GitHub workflow write failed: ${writeRes.status} ${writeRes.statusText} ${errorBody}`);
+		throw new Error(
+			`GitHub workflow write failed: ${writeRes.status} ${writeRes.statusText} ${errorBody}`,
+		);
 	}
 
 	return (await writeRes.json()) as {
